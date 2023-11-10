@@ -1,0 +1,133 @@
+22/12/05
+已做：
+1.使用CAPL和TRACE32详细测试目前软件中E2E功能和用户需求是否相符同时更新到Communication overall test测试用例，并且记录相应问题。
+2.修复E2E 0x101报文检测周期错误问题
+3.修复在0x80报文超时的时候Test_GetStatus_Status不置位问题
+4.更新IMS需求
+5.搭建TC3XX调试环境并且点亮LED灯
+	1.宏定义端口号为P00.6、模式为Output、speed grade为4.
+	2.宏定义通用IO口配置。成员又步骤1中端口号的地址、模式、和speed grade。
+	3.将步骤2中的宏定义放入IfxPort_Io_ConfigPin类型的数组（为了求出占用空间大小和类型转换，为后面调函数做铺垫）。
+	4.定义结构体IfxPort_Io_Config类型变量（结构体内包含一个空间大小和一个数组）。
+	5.将步骤4定义的变量的地址作为参数调用IfxPort_Io_initModule函数。
+在做：
+1.手动封装一层函数无效，继续排查E2E错误标志位不自动清零和前5帧报文E2E无效问题。
+2.学习TC3XX知识。
+
+
+22/11/28
+已做：
+1.the range of signals（variables） test
+2.Communication overall test和测试用例的查漏补缺以及记录测试到的问题
+3.TC3XX基础文档观看四分之一
+4.初步了解ComM，CAN Trcv
+5.参加CANdelaStudio相关培训，对其有了初步了解
+在做：
+1.使用CAPL和TRACE32详细测试目前软件中E2E功能和用户需求是否相符同时更新到Communication overall test测试用例，并且记录相应问题。
+2.穿插观看TC3XX基础文档
+
+22/11/21
+已做：
+1.Interface of all signals (Variables)  test
+2.busoff of all 3 channels  test
+3.1939 test
+4.all signals（variables） data type check
+5.Fix problems found during testing above and test further
+6.ims需求文档检查和更新
+7.TC3XX基础内容学习
+要做：
+1.the range of signals（variables） test
+2.TC3XX进阶内容学习
+
+
+22/11/14
+已做：
+1.涉及到matrix和timeout的接口和变量在总BSWASW接口表更新
+2.DIDI Software User Manual update
+3.学习E2E原理以及实现方式和测试方式
+4.CAPL初步学习（编写和使用（简化版C，事件型语言），测试E2E）
+5.劳德巴赫脚本语言初步学习（批量导入变量和随即赋值，测试all signals）
+6.Communication overall test
+	1 E2E 
+	2 Period and DLC of all messages
+	3 Timeout flag and DTC
+在做：
+1.Communication overall test
+	1 Interface of all signals (Variables)
+	2 busoff of all 3 channels
+	3 1939
+2.autosar specification 学习
+3.TC3XX文档和TC37X文档学习（先看AURIXTC3XX_um_part1_v2.0中01introduction he 14 General Purpose I/O Ports and Peripheral I/O Lines (Ports)
+
+22/11/07
+在做;
+1.Communication overall test
+	1 Interface of all signals (Variables)
+	2 busoff of all 3 channels
+	3 1939
+2.autosar specification 学习
+3.TC3XX文档和TC37X文档学习（先看AURIXTC3XX_um_part1_v2.0中01introduction he 14 General Purpose I/O Ports and Peripheral I/O Lines (Ports)
+
+
+22/10/31
+已做：
+1.报文超时和节点超时置位变量从以前的单个变量逐条报文定义变成现在的数组配合枚举完成
+2.排查软件DTC故障（上电后VDPPT节点只有发送再停发才可以报DTC,上电后不报）
+3.远程编译完成后整体增加的功能和基本功能测试，提交测试报告，merge代码
+4.UDS读取DTC 19服务 读取发送19 02 09 19+02+DTCStatusMask 回复59 02 89 +DTC+DTCAvailablilityMask+...
+  alyzer直接读取 请求742 19 02 09 回复74A 59 02 89 DTC+DTCAvailablilityMask+DTC+DTCAvailablilityMask+...
+5.了解UDS其他服务对应的功能
+6.10月25-10月27日每天新员工入职培训
+要做：
+1.涉及到matrix和timeout的接口和变量在总BSWASW接口表更新
+2.继续学习autosar specification
+3.UDS报文练习
+
+
+22/10/24
+已做：
+1.add timeout flag for each message
+2.Re-configure Comdiag to change message monitored for each node
+3.add interface for event trigger message
+4.了解COM部分的autosar specification，并在Word里列表，用到了可以查阅。
+在做：
+1.排查软件DTC故障（上电后VDPPT节点只有发送再停发才可以报DTC,上电后不报）。
+2.UDS读取DTC 19服务 读取发送19 02 09 19+02+DTCStatusMask 回复59 02 89 +DTC+DTCAvailablilityMask+...
+  alyzer直接读取 上位机请求742 19 02 09ECU回复74A 59 02 89 DTC+DTCAvailablilityMask+DTC+DTCAvailablilityMask+...
+将要做：
+1.10月25-10月27日每天8：15-16：15新员工入职培训。
+
+22/10/14
+已做：
+1.E5 Matrix and interface update所有变更的EB配置、代码修改。
+2.变更后所有报文和信号的测试以及部分原有报文和信号测试，提交代码。
+3.学习AutoSAR CAN报文传输原理。
+
+要做：
+1.add timeout flag for each message
+2.Re-configure Comdiag to change message monitored for each node
+3.add interface for event trigger message
+4.学习任务中的原理。
+5.学习事件型报文背后原理。
+6.CAPL学习。
+
+
+22/09/30
+已做：
+1.0GH0K编译成功
+2.E5 Matrix and interface update基础收发报文测试。
+3.E5 Matrix and interface update中新加的一条收报文和一条发报文的EB配置代码修改与远程测试。
+要做：
+1.E5 Matrix and interface update所有变更的EB配置、代码修改和测试。
+
+部分Handle ID无法自动计算。
+
+22/09/26
+已做：
+1.分类列下要干的变更，哪些是报文新增/信号新增/删除/初始值变化。
+2.核对下Change History和DBC是否一致。
+3.git命令学习（获取代码、切换分支、代码提交、merge）。
+4.0GH08编译成功。
+要做：
+1.0GH0K编译
+2.E5 Matrix and interface update(EB配置)

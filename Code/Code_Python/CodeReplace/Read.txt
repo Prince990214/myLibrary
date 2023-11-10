@@ -1,0 +1,2 @@
+                        <d:ref type="REFERENCE"
+                               value="ASPath:/Com/Com/ComConfig/nameee"/>

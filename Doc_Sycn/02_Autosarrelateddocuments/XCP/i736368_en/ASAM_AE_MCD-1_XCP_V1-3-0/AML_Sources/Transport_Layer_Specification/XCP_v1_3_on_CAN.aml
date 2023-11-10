@@ -1,0 +1,124 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 meta language for XCP on CAN V1.3               */
+/*                                                         */
+/*                                                         */
+/*   Datatypes:                                            */
+/*                                                         */
+/*   A2ML       description                                */
+/*   ---------------------------------------------------   */
+/*   uchar      unsigned 8 Bit                             */
+/*   char       signed 8 Bit                               */
+/*   uint       unsigned integer 16 Bit                    */
+/*   int        signed integer 16 Bit                      */
+/*   ulong      unsigned integer 32 Bit                    */
+/*   long       signed integer 32 Bit                      */
+/*   int64      signed integer 64 Bit                      */
+/*   uint64     unsigned integer 64 Bit                    */
+/*   float      float point 32 Bit IEEE 754                */
+/*   double     float point 64 Bit IEEE 754                */
+/*                                                         */
+/***********************************************************/
+
+/************************ start of CAN *********************/
+
+struct CAN_Parameters {                        /* At MODULE */
+  uint;                                        /* XCP on CAN version */
+                                               /* "1.3" = 0x0103 */
+  taggedstruct {                               /* optional */
+    "CAN_ID_BROADCAST" ulong;                  /* Auto detection CAN-ID */
+                                               /* master -> slaves */
+                                               /* Bit31= 1: extended identifier */
+    "CAN_ID_MASTER" ulong;                     /* CMD/STIM CAN-ID */
+                                               /* master -> slave */
+                                               /* Bit31= 1: extended identifier */
+    "CAN_ID_MASTER_INCREMENTAL";               /* master uses range of CAN-IDs */
+                                               /* start of range = CAN_ID_MASTER */
+                                               /* end of range = CAN_ID_MASTER+MAX_BS(_PGM)-1 */
+    "CAN_ID_SLAVE" ulong;                      /* RES/ERR/EV/SERV/DAQ CAN-ID */
+                                               /* slave -> master */
+                                               /* Bit31= 1: extended identifier */
+    "CAN_ID_GET_DAQ_CLOCK_MULTICAST" ulong;    /* Only to be used for GET_DAQ_CLOCK_MULTICAST */
+                                               /* master -> slaves */
+                                               /* Bit31= 1: extended identifier */
+    "BAUDRATE" ulong;                          /* BAUDRATE [Hz] */
+    "SAMPLE_POINT" uchar;                      /* sample point */
+                                               /* [% complete bit time] */
+    "SAMPLE_RATE" enum {
+      "SINGLE" = 1,                            /* 1 sample per bit */
+      "TRIPLE" = 3                             /* 3 samples per bit */
+    };
+    "BTL_CYCLES" uchar;                        /* BTL_CYCLES */
+                                               /* [slots per bit time] */
+    "SJW" uchar;                               /* length synchr. segment */
+                                               /* [BTL_CYCLES] */
+    "SYNC_EDGE" enum {
+      "SINGLE" = 1,                            /* on falling edge only */
+      "DUAL" = 2                               /* on falling and rising edge */
+    };
+    "MAX_DLC_REQUIRED";                        /* master to slave frames */
+                                               /* always to have DLC = MAX_DLC = 8 */
+
+    (block "DAQ_LIST_CAN_ID" struct {          /* At IF_DATA DAQ */
+      uint;                                    /* reference to DAQ_LIST_NUMBER */
+      taggedstruct {                           /* exclusive tags */
+                                               /* either VARIABLE or FIXED */
+        "VARIABLE";
+        "FIXED" ulong;                         /* this DAQ_LIST always */
+                                               /* on this CAN_ID */
+      };
+
+    })*;
+    (block "EVENT_CAN_ID_LIST" struct {        /* At IF_DATA DAQ */
+      uint;                                    /* reference to EVENT_NUMBER */
+      taggedstruct {                           /* exclusive tags */
+        ("FIXED" ulong)*;                      /* this Event always on this ID */
+      };
+    })*;
+
+    "MAX_BUS_LOAD"  ulong;                     /* maximum available bus */
+                                               /* load in percent */
+
+    block "CAN_FD" struct {
+      taggedstruct {
+
+        "MAX_DLC" uint;                        /* 8, 12, 16, 20, 24, 32, 48 or 64 */
+        "CAN_FD_DATA_TRANSFER_BAUDRATE" ulong; /* BAUDRATE [Hz] */
+
+        "SAMPLE_POINT" uchar;                  /* sample point receiver */
+                                               /* [% complete bit time] */
+
+        "BTL_CYCLES" uchar;                    /* BTL_CYCLES */
+                                               /* [slots per bit time] */
+        "SJW" uchar;                           /* length synchr. segment */
+                                               /* [BTL_CYCLES] */
+        "SYNC_EDGE" enum {
+          "SINGLE" = 1,                        /* on falling edge only */
+          "DUAL"   = 2                         /* on falling and rising edge */
+        };
+
+        "MAX_DLC_REQUIRED";                    /* master to slave frames */
+                                               /* always to have DLC = MAX_DLC_for CAN-FD */
+
+        "SECONDARY_SAMPLE_POINT" uchar;        /* sender sample point */
+                                               /* [% complete bit time] */
+        "TRANSCEIVER_DELAY_COMPENSATION" enum {
+          "OFF" = 0,
+          "ON" = 1
+        };
+      };
+    };
+  };
+
+  taggedstruct {
+    ("OPTIONAL_TL_SUBCMD" enum {               /* XCP-Code of optional transport layer */
+                                               /* specific subcommand supported by the slave */
+      "GET_SLAVE_ID"                     = 0xFF,
+      "GET_DAQ_ID"                       = 0xFE,
+      "SET_DAQ_ID"                       = 0xFD,
+      "GET_DAQ_CLOCK_MULTICAST"          = 0xFA
+    })*;
+  };
+};
+
+/************************* end of CAN **********************/

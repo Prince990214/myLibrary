@@ -1,0 +1,52 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 meta language for XCP on UDP_IP V1.3            */
+/*                                                         */
+/*                                                         */
+/*   Datatypes:                                            */
+/*                                                         */
+/*   A2ML       description                                */
+/*   ---------------------------------------------------   */
+/*   uchar      unsigned 8 Bit                             */
+/*   char       signed 8 Bit                               */
+/*   uint       unsigned integer 16 Bit                    */
+/*   int        signed integer 16 Bit                      */
+/*   ulong      unsigned integer 32 Bit                    */
+/*   long       signed integer 32 Bit                      */
+/*   int64      signed integer 64 Bit                      */
+/*   uint64     unsigned integer 64 Bit                    */
+/*   float      float point 32 Bit IEEE 754                */
+/*   double     float point 64 Bit IEEE 754                */
+/*                                                         */
+/***********************************************************/
+
+/************************ start of UDP_IP ******************/
+
+struct UDP_IP_Parameters {
+
+  uint;                          /* XCP on UDP_IP version */
+                                 /* "1.3" = 0x0103 */
+  uint;                          /* PORT */
+
+  taggedunion {
+    "HOST_NAME" char[256];
+    "ADDRESS" char[15];
+    "IPV6" char[39];
+  };
+  taggedstruct{
+    "MAX_BUS_LOAD"  ulong;       /* maximum available bus */
+                                 /* load in percent */
+    "MAX_BIT_RATE"  ulong;       /* Network speed which is */
+                                 /* the base for MAX_BUS_LOAD in Mbit */
+  };
+
+  taggedstruct{
+    ("OPTIONAL_TL_SUBCMD" enum { /* XCP-Code of optional transport layer */
+                                 /* specific subcommand supported by the slave */
+      "GET_SLAVE_ID"             = 0xFF,
+      "GET_DAQ_CLOCK_MULTICAST"  = 0xFA
+    })*;
+  };
+};
+
+/*************************** end of UDP ********************/

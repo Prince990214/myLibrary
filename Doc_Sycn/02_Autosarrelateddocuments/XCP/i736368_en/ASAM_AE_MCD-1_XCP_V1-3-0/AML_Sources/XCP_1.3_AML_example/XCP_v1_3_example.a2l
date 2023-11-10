@@ -1,0 +1,154 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 example for XCP V1.3                            */
+/*                                                         */
+/***********************************************************/
+
+/begin PROJECT XCP
+  "XCP 1.3 example"
+
+  /begin HEADER
+    "Example for a XCP 1.3 A2L file"
+
+    VERSION    "1.3"
+    PROJECT_NO XCP_v0103
+
+  /end HEADER
+
+  /begin MODULE XCP_1_3_ECU
+    "XCP 1.3 ECU example"
+
+    /include XCPplus_v1_3_IF_DATA_example.aml
+
+    /begin MOD_COMMON ""
+
+      BYTE_ORDER MSB_LAST
+
+    /end MOD_COMMON
+
+    /include XCP_v1_3_IF_DATA_example.a2l
+
+    /begin MOD_PAR ""
+
+      /begin MEMORY_SEGMENT
+
+        Calib                                    /* name */
+        "Calibration data"                       /* long identifier */
+        DATA                                     /* PrgType */
+        FLASH                                    /* Memory Type */
+        INTERN                                   /* Attribute */
+        0x4000                                   /* Address */
+        0x200                                    /* Size */
+        -1 -1 -1 -1 -1                           /* no mirrored segments */
+
+        /begin IF_DATA XCPplus  0x0103           /* IF_DATA XCP version */
+
+          /begin SEGMENT
+
+            0x00                                 /* segment logical number */
+            0x02                                 /* number of pages */
+            0x00                                 /* address extension */
+            0x00                                 /* Compression method */
+            0x00                                 /* Encryption method */
+
+            /begin CHECKSUM
+
+              XCP_USER_DEFINED                   /* checksum through external function */
+              MAX_BLOCK_SIZE 0x100               /* maximum block size */
+              MTA_BLOCK_SIZE_ALIGN 4             /* required alignment of MTA and block size */
+              EXTERNAL_FUNCTION "MyChecksum.DLL" /* name of function */
+
+            /end CHECKSUM
+
+            /begin PAGE
+
+              0x00                               /* page number */
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_NOT_ALLOWED
+              INIT_SEGMENT 0x00                  /* init segment */
+
+            /end PAGE
+
+            /begin PAGE
+
+              0x01                               /* page number */
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_WITH_ECU_ONLY
+              INIT_SEGMENT 0x00                  /* init segment */
+
+            /end PAGE
+
+            /begin ADDRESS_MAPPING
+
+              0x04000                            /* from */
+              0x14000                            /* to */
+              0x100                              /* length */
+
+            /end ADDRESS_MAPPING
+
+            /begin ADDRESS_MAPPING
+
+              0x04100                            /* from */
+              0x24100                            /* to */
+              0x100                              /* length */
+
+            /end ADDRESS_MAPPING
+
+          /end SEGMENT
+
+        /end IF_DATA
+
+      /end MEMORY_SEGMENT
+
+    /end MOD_PAR
+
+
+    /begin MEASUREMENT
+
+      Triangle                                   /* name */
+      "Triangle test signal"                     /* long identifier */
+
+      SBYTE                                      /* DataType */
+      BitSlice.CONVERSION                        /* conversion */
+      0                                          /* resolution */
+      0                                          /* accuracy */
+      -50  50                                    /* lower, upper limit */
+
+      BIT_MASK 0xFF
+      ECU_ADDRESS 0x44A16
+      FORMAT "%7.3"
+
+      /begin IF_DATA XCPplus  0x0103             /* IF_DATA XCP version */
+
+        /begin DAQ_EVENT VARIABLE
+
+          /begin AVAILABLE_EVENT_LIST
+            EVENT 0001  EVENT 0002
+          /end AVAILABLE_EVENT_LIST
+
+          /begin DEFAULT_EVENT_LIST
+            EVENT 0001
+          /end DEFAULT_EVENT_LIST
+
+        /end DAQ_EVENT
+
+      /end IF_DATA
+
+    /end MEASUREMENT
+
+    /begin COMPU_METHOD
+
+      BitSlice.CONVERSION
+      ""
+      RAT_FUNC
+      "%2.0"
+      "-"
+      COEFFS 0 1 0 0 0 1
+
+    /end COMPU_METHOD
+
+  /end MODULE
+
+/end PROJECT

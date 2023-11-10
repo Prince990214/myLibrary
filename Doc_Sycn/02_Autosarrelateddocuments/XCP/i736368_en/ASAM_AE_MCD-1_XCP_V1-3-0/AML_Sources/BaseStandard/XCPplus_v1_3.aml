@@ -1,0 +1,96 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 meta language for XCPplus V1.3                  */
+/*                                                         */
+/*                                                         */
+/*   Datatypes:                                            */
+/*                                                         */
+/*   A2ML       description                                */
+/*   ---------------------------------------------------   */
+/*   uchar      unsigned 8 Bit                             */
+/*   char       signed 8 Bit                               */
+/*   uint       unsigned integer 16 Bit                    */
+/*   int        signed integer 16 Bit                      */
+/*   ulong      unsigned integer 32 Bit                    */
+/*   long       signed integer 32 Bit                      */
+/*   int64      signed integer 64 Bit                      */
+/*   uint64     unsigned integer 64 Bit                    */
+/*   float      float point 32 Bit IEEE 754                */
+/*   double     float point 64 Bit IEEE 754                */
+/*                                                         */
+/***********************************************************/
+
+/******** start of XCP on different Transport Layers *******/
+
+"XCPplus" struct {
+  uint;
+  taggedstruct Common_Parameters ;    /* default parameters */
+
+  taggedstruct {                      /* transport layer specific parameters */
+                                      /* overruling of the default parameters */
+
+    (block "XCP_ON_CAN" struct {
+
+      struct CAN_Parameters ;         /* specific for CAN */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+    (block "XCP_ON_SxI" struct {
+
+      struct SxI_Parameters ;         /* specific for SxI */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+    (block "XCP_ON_TCP_IP" struct {
+
+      struct TCP_IP_Parameters ;      /* specific for TCP_IP */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+    (block "XCP_ON_UDP_IP" struct {
+
+      struct UDP_IP_Parameters ;      /* specific for UDP */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+    (block "XCP_ON_USB" struct {
+
+      struct USB_Parameters ;         /* specific for USB */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+    (block "XCP_ON_FLX" struct {
+
+      struct FLX_Parameters ;         /* specific for FlexRay */
+      taggedstruct Common_Parameters; /* overruling of default */
+      taggedstruct {
+        "TRANSPORT_LAYER_INSTANCE" char[101];
+      };
+
+    })*;
+
+  };
+
+};
+
+/******** end of XCP on different Transport Layers *********/

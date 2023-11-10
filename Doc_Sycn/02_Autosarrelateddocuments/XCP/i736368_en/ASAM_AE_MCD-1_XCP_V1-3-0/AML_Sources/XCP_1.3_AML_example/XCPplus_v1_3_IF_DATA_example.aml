@@ -1,0 +1,28 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 meta language example for XCP V1.3              */
+/*                                                         */
+/*                                                         */
+/*   Datatypes:                                            */
+/*                                                         */
+/*   A2ML       description                                */
+/*   ---------------------------------------------------   */
+/*   uchar      unsigned 8 Bit                             */
+/*   char       signed 8 Bit                               */
+/*   uint       unsigned integer 16 Bit                    */
+/*   int        signed integer 16 Bit                      */
+/*   ulong      unsigned integer 32 Bit                    */
+/*   long       signed integer 32 Bit                      */
+/*   int64      signed integer 64 Bit                      */
+/*   uint64     unsigned integer 64 Bit                    */
+/*   float      float point 32 Bit IEEE 745                */
+/*   double     float point 64 Bit IEEE 745                */
+/*                                                         */
+/***********************************************************/
+
+/begin A2ML
+  /include XCP_v1_3_definitions.aml
+  block "IF_DATA" taggedunion if_data {
+    /include XCPplus_v1_3.aml
+  };
+/end A2ML

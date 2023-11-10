@@ -1,0 +1,4 @@
+COM tx signal 36382-73011
+COM rx signal 73012-95075
+RX REF 5627 - 10103
+tx ref 10130 - 14536

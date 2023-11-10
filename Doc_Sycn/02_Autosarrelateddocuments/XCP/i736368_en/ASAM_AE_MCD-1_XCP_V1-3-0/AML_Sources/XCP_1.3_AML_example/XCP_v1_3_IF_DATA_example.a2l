@@ -1,0 +1,1203 @@
+/***********************************************************/
+/*                                                         */
+/*   ASAP2 example for XCP IF_DATA V1.3                    */
+/*                                                         */
+/***********************************************************/
+
+/begin IF_DATA XCPplus 0x0103    /* IF_DATA XCP version */
+
+  /begin PROTOCOL_LAYER
+
+    0x0103                       /* XCP protocol layer version */
+    0x0019                       /* T1 [ms] */
+    0x0019                       /* T2 [ms] */
+    0x0019                       /* T3 [ms] */
+    0x0019                       /* T4 [ms] */
+    0x0019                       /* T5 [ms] */
+    0x0005                       /* T6 [ms] */
+    0x00C8                       /* T7 [ms] */
+    0x20                         /* MAX_CTO */
+    0x00FF                       /* MAX_DTO */
+
+    BYTE_ORDER_MSB_FIRST
+    ADDRESS_GRANULARITY_WORD
+    SEED_AND_KEY_EXTERNAL_FUNCTION     "MyS&K.DLL"
+
+    OPTIONAL_CMD  GET_ID
+    OPTIONAL_CMD  SET_REQUEST
+    OPTIONAL_CMD  GET_SEED
+    OPTIONAL_CMD  UNLOCK
+    OPTIONAL_CMD  SET_MTA
+    OPTIONAL_CMD  UPLOAD
+    OPTIONAL_CMD  BUILD_CHECKSUM
+    OPTIONAL_CMD  DOWNLOAD
+    OPTIONAL_CMD  SET_CAL_PAGE
+    OPTIONAL_CMD  GET_CAL_PAGE
+    OPTIONAL_CMD  COPY_CAL_PAGE
+    OPTIONAL_CMD  CLEAR_DAQ_LIST
+    OPTIONAL_CMD  SET_DAQ_PTR
+    OPTIONAL_CMD  WRITE_DAQ
+    OPTIONAL_CMD  SET_DAQ_LIST_MODE
+    OPTIONAL_CMD  START_STOP_DAQ_LIST
+    OPTIONAL_CMD  START_STOP_SYNCH
+    OPTIONAL_CMD  GET_DAQ_CLOCK
+    OPTIONAL_CMD  WRITE_DAQ_MULTIPLE
+    OPTIONAL_CMD  DTO_CTR_PROPERTIES
+    OPTIONAL_CMD  TIME_CORRELATION_PROPERTIES
+
+    /begin ECU_STATES
+      /begin STATE
+        1                        /* STATE_NUMBER */
+        "ECU_ON"                 /* STATE_NAME */
+        ACTIVE                   /* CAL/PAG RESOURCE */
+        ACTIVE                   /* DAQ RESOURCE */
+        NOT_ACTIVE               /* STIM RESOURCE */
+        ACTIVE                   /* PGM RESOURCE */
+        /begin MEMORY_ACCESS
+          0                      /* SEGMENT */
+          0                      /* PAGE */
+          READ_ACCESS_ALLOWED
+          WRITE_ACCESS_ALLOWED
+        /end MEMORY_ACCESS
+        /begin MEMORY_ACCESS
+          0                      /* SEGMENT */
+          1                      /* PAGE */
+          READ_ACCESS_ALLOWED
+          WRITE_ACCESS_ALLOWED
+        /end MEMORY_ACCESS
+      /end STATE
+    /end ECU_STATES
+
+  /end PROTOCOL_LAYER
+
+  /begin DAQ
+
+    DYNAMIC                      /* DAQ_CONFIG_TYPE */
+    0x0100                       /* MAX_DAQ */
+    0x0100                       /* MAX_EVENT_CHANNEL */
+    0x05                         /* MIN_DAQ */
+
+    OPTIMISATION_TYPE_ODT_TYPE_32
+    ADDRESS_EXTENSION_FREE
+    IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD_ALIGNED
+
+    GRANULARITY_ODT_ENTRY_SIZE_DAQ_WORD
+    0x04                         /* MAX_ODT_ENTRY_SIZE_DAQ */
+
+    NO_OVERLOAD_INDICATION
+    PRESCALER_SUPPORTED
+    RESUME_SUPPORTED
+
+    /begin STIM
+
+      GRANULARITY_ODT_ENTRY_SIZE_STIM_WORD
+      0x04                       /* MAX_ODT_ENTRY_SIZE_STIM */
+      BIT_STIM_SUPPORTED
+
+    /end STIM
+
+    /begin TIMESTAMP_SUPPORTED
+
+      0x0100                     /* TIMESTAMP_TICKS */
+      SIZE_WORD
+      UNIT_1MS
+      TIMESTAMP_FIXED
+
+    /end TIMESTAMP_SUPPORTED
+
+    /begin EVENT
+
+      "10_ms_task"               /* name */
+      "10 ms"                    /* short name */
+      0x0000                     /* EVENT_CHANNEL_NUMBER */
+      DAQ_STIM
+      0x02                       /* MAX_DAQ_LIST */
+      0x0A                       /* EVENT_CHANNEL_TIME_CYCLE */
+      0x06                       /* EVENT_CHANNEL_TIME_UNIT */
+      0x00                       /* EVENT_CHANNEL_PRIORITY */
+
+    /end EVENT
+
+    /begin EVENT
+
+      "100_ms_task"              /* name */
+      "100 ms"                   /* short name */
+      0x0001                     /* EVENT_CHANNEL_NUMBER */
+      DAQ_STIM
+      0x02                       /* MAX_DAQ_LIST */
+      0x64                       /* EVENT_CHANNEL_TIME_CYCLE */
+      0x06                       /* EVENT_CHANNEL_TIME_UNIT */
+      0x10                       /* EVENT_CHANNEL_PRIORITY */
+      CONSISTENCY EVENT
+
+      /begin CPU_LOAD_CONSUMPTION_DAQ
+        1                        /* DAQ_FACTOR */
+        2                        /* ODT_FACTOR */
+        3                        /* ODT_ENTRY_FACTOR */
+        /begin ODT_ENTRY_SIZE_FACTOR_TABLE
+          1                      /* SIZE */
+          150                    /* SIZE_FACTOR: e.g. CPU cycles */
+        /end ODT_ENTRY_SIZE_FACTOR_TABLE
+        /begin ODT_ENTRY_SIZE_FACTOR_TABLE
+          4                      /* SIZE */
+          420                    /* SIZE_FACTOR */
+        /end ODT_ENTRY_SIZE_FACTOR_TABLE
+      /end CPU_LOAD_CONSUMPTION_DAQ
+
+    /end EVENT
+	
+    /begin EVENT
+
+      "Bypass_DAQ"               /* name */
+      "BYP_DAQ"                  /* short name */
+      0x0002                     /* EVENT_CHANNEL_NUMBER */
+      DAQ
+      0x02                       /* MAX_DAQ_LIST */
+      0x0A                       /* EVENT_CHANNEL_TIME_CYCLE */
+      0x06                       /* EVENT_CHANNEL_TIME_UNIT */
+      0xFF                       /* EVENT_CHANNEL_PRIORITY */
+	  
+      CONSISTENCY EVENT
+
+      EVENT_COUNTER_PRESENT
+      RELATED_EVENT_CHANNEL_NUMBER 0x0002
+      RELATED_EVENT_CHANNEL_NUMBER_FIXED
+      DTO_CTR_DAQ_MODE INSERT_COUNTER
+      DTO_CTR_DAQ_MODE_FIXED
+
+    /end EVENT
+
+    /begin EVENT
+
+      "Bypass_STIM"              /* name */
+      "BYP_STIM"                 /* short name */
+      0x0003                     /* EVENT_CHANNEL_NUMBER */
+      STIM
+      0x02                       /* MAX_DAQ_LIST */
+      0x0A                       /* EVENT_CHANNEL_TIME_CYCLE */
+      0x06                       /* EVENT_CHANNEL_TIME_UNIT */
+      0x00                       /* EVENT_CHANNEL_PRIORITY */
+
+      RELATED_EVENT_CHANNEL_NUMBER 0x0002
+      RELATED_EVENT_CHANNEL_NUMBER_FIXED
+      DTO_CTR_STIM_MODE CHECK_COUNTER
+      DTO_CTR_STIM_MODE_FIXED
+	  
+    /end EVENT
+
+  /end DAQ
+
+  /begin PAG
+
+    0x01                         /* MAX_SEGMENTS */
+    FREEZE_SUPPORTED
+
+  /end PAG
+
+  /begin PGM
+
+    PGM_MODE_ABSOLUTE_AND_FUNCTIONAL
+    0x02                         /* MAX_SECTORS */
+    0x08                         /* MAX_CTO_PGM */
+
+    /begin SECTOR
+
+      "Lower sector"             /* name */
+      0x00                       /* SECTOR_NUMBER */
+      0x000000                   /* address */
+      0x20000                    /* length */
+      0x01                       /* Erase number */
+      0x02                       /* Program number */
+      0x00                       /* Programming method */
+
+    /end SECTOR
+
+    /begin SECTOR
+
+      "Upper sector"             /* name */
+      0x01                       /* SECTOR_NUMBER */
+      0x020000                   /* address */
+      0x20000                    /* length */
+      0x03                       /* Erase number */
+      0x04                       /* Program number */
+      0x00                       /* Programming method */
+
+    /end SECTOR
+
+  /end PGM
+
+  /* configuration relates to scenario 1 described in base standard */
+  /begin TIME_CORRELATION
+    DAQ_TIMESTAMPS_RELATE_TO XCP_SLAVE_CLOCK    /* DAQ/STIM timestamps */
+                                                /* related to XCP_SLAVE_CLOCK */    
+    /begin CLOCK                                  
+      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   /* globally unique clock identifier (UUID/EUI) */
+      XCP_SLAVE_CLOCK                           /* clock enumerator */
+      RANDOMLY_READABLE                         /* readability */
+      SYN_UNSUPPORTED                           /* clock neither supports synchronization */
+                                                /* nor syntonization */
+      0xFF                                      /* clock quality, stratum level */
+      /begin TIMESTAMP_CHARACTERIZATION 
+        0x01                                    /* TIMESTAMP_TICKS */
+        UNIT_1US                                /* RESOLUTION OF TIMESTAMP */
+        SIZE_FOUR_BYTE                          /* NATIVE TIMESTAMP SIZE */
+      /end TIMESTAMP_CHARACTERIZATION 
+      0x00000000FFFFFFFF                        /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+      ARBITRARY                                 /* epoch unknown */
+    /end CLOCK
+    
+  /end TIME_CORRELATION
+  
+  
+  
+  /* configuration relates to scenario 2 described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO XCP_SLAVE_CLOCK    */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to XCP_SLAVE_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   */  /* globally unique clock identifier (UUID/EUI) */
+  /*      XCP_SLAVE_CLOCK                           */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_ALL                                   */  /* clock supports synchronization as well */
+  /*                                                */  /* as syntonization to external grandmaster clock */
+  /*                                                */  /* Once the clock is synchronized or syntonized */
+  /*                                                */  /* the characteristics of the grandmaster clock */
+  /*                                                */  /* shall be made available to the master by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1NS                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_EIGHT_BYTE                         */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0xFFFFFFFFFFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+  
+  
+  
+  /* configuration relates to scenario 4a described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO XCP_SLAVE_CLOCK    */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to XCP_SLAVE_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   */  /* globally unique clock identifier (UUID/EUI) */
+  /*      XCP_SLAVE_CLOCK                           */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*                                                */  /* unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      XCP_SLAVE_GRANDMASTER_CLOCK               */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_ALL                                   */  /* clock supports synchronization as well */
+  /*                                                */  /* as syntonization to external grandmaster clock */
+  /*      0xFF                                      */  /* Clock quality, stratum level. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1NS                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_EIGHT_BYTE                         */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0xFFFFFFFFFFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* Epoch unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+    
+    
+  /* configuration relates to scenario 4b described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO XCP_SLAVE_CLOCK    */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to XCP_SLAVE_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   */  /* globally unique clock identifier (UUID/EUI) */
+  /*      XCP_SLAVE_CLOCK                           */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*                                                */  /* unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      XCP_SLAVE_GRANDMASTER_CLOCK               */  /* clock enumerator */
+  /*      LIMITED_READABLE                          */  /* readability */
+  /*      SYN_ALL                                   */  /* clock supports synchronization as well */
+  /*                                                */  /* as syntonization to external grandmaster clock */
+  /*      0xFF                                      */  /* Clock quality, stratum level. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1NS                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_EIGHT_BYTE                         */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0xFFFFFFFFFFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* Epoch unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+  
+  
+  
+  /* configuration relates to scenario 5 described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO ECU_CLOCK          */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to ECU_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   */  /* globally unique clock identifier (UUID/EUI) */
+  /*      XCP_SLAVE_CLOCK                           */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x04 0x03 0x02 0x01   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*      ECU_CLOCK                                 */  /* clock enumerator */
+  /*      LIMITED_READABLE                          */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x0A                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+  
+  
+  
+  /* configuration relates to scenario 6 described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO ECU_CLOCK          */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to ECU_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x16 0x81 0xFF 0xFE 0x01 0x02 0x03   */  /* globally unique clock identifier (UUID/EUI) */
+  /*      XCP_SLAVE_CLOCK                           */  /* clock enumerator */
+  /*      RANDOMLY_READABLE                         */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*                                                */  /* unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      XCP_SLAVE_GRANDMASTER_CLOCK               */  /* clock enumerator */
+  /*      LIMITED_READABLE                          */  /* readability */
+  /*      SYN_ALL                                   */  /* clock supports synchronization as well */
+  /*                                                */  /* as syntonization to external grandmaster clock */
+  /*      0xFF                                      */  /* Clock quality, stratum level. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x01                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1NS                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_EIGHT_BYTE                         */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0xFFFFFFFFFFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* Epoch unknown at this point. Will be updated once */
+  /*                                                */  /* clock is synchronized an made availabe by the */
+  /*                                                */  /* GRANDM_CLK_INFO structure */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x04 0x03 0x02 0x01   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*      ECU_CLOCK                                 */  /* clock enumerator */
+  /*      LIMITED_READABLE                          */  /* readability */
+  /*      SYN_UNSUPPORTED                           */  /* clock neither supports synchronization */
+  /*                                                */  /* nor syntonization */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x0A                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+
+  /* configuration relates to scenario 7 described in base standard */
+  /*  /begin TIME_CORRELATION                       */  
+  /*    DAQ_TIMESTAMPS_RELATE_TO ECU_CLOCK          */  /* DAQ/STIM timestamps */
+  /*                                                */  /* related to ECU_CLOCK */    
+  /*    /begin CLOCK                                */    
+  /*      0x00 0x00 0x00 0x00 0x04 0x03 0x02 0x01   */  /* Globally unique clock identifier (UUID/EUI) */
+  /*      ECU_CLOCK                                 */  /* clock enumerator */
+  /*      NOT_READABLE                              */  /* readability */
+  /*      SYNCHRONIZATION_ONLY                      */  /* Clock only supports synchronization to */
+  /*                                                */  /* external grandmaster clock. */
+  /*                                                */  /* The characteristics of the grandmaster clock */
+  /*                                                */  /* shall be made available to the master by the */
+  /*                                                */  /* ECU_GRANDM_CLK_INFO structure. */
+  /*      0xFF                                      */  /* clock quality, stratum level */
+  /*      /begin TIMESTAMP_CHARACTERIZATION         */  
+  /*        0x0A                                    */  /* TIMESTAMP_TICKS */
+  /*        UNIT_1US                                */  /* RESOLUTION OF TIMESTAMP */
+  /*        SIZE_FOUR_BYTE                          */  /* NATIVE TIMESTAMP SIZE */
+  /*      /end TIMESTAMP_CHARACTERIZATION           */  
+  /*      0x00000000FFFFFFFF                        */  /* MAX_TIMESTAMP_VALUE_BEFORE_WRAP_AROUND */
+  /*      ARBITRARY                                 */  /* epoch unknown */
+  /*    /end CLOCK                                  */  
+  /*                                                */  
+  /*  /end TIME_CORRELATION                         */  
+  
+  /begin XCP_ON_TCP_IP
+
+    0x0103                       /* XCP on TCP_IP version */
+    0x5555                       /* PORT */
+                                 /* IPV6 ADDRESS */
+    IPV6 "FE80:0000:0000:0000:0202:B3FF:FE1E:8329"
+    MAX_BUS_LOAD 15              /* MAX_BUS_LOAD */
+    MAX_BIT_RATE 100
+
+  /end XCP_ON_TCP_IP
+
+  /begin XCP_ON_UDP_IP
+
+    0x0103                       /* XCP on UDP_IP version */
+    0x5555                       /* PORT */
+    ADDRESS "127.0.0.1"          /* ADDRESS */
+    MAX_BUS_LOAD 80              /* MAX_BUS_LOAD */
+    MAX_BIT_RATE 10
+
+  /end XCP_ON_UDP_IP
+
+  /begin XCP_ON_CAN
+
+    0x0103                       /* XCP on CAN version */
+    CAN_ID_BROADCAST 0x0100      /* Broadcast */
+    CAN_ID_MASTER 0x0200         /* CMD/STIM */
+    CAN_ID_MASTER_INCREMENTAL
+    CAN_ID_SLAVE 0x0300          /* RES/ERR/EV/SERV/DAQ */
+    BAUDRATE 500000              /* BAUDRATE */
+
+    /begin DAQ_LIST_CAN_ID
+
+      0x0000                     /* for DAQ_LIST 0 */
+      FIXED 0x310
+
+    /end DAQ_LIST_CAN_ID
+
+    /begin DAQ_LIST_CAN_ID
+
+      0x0001                     /* for DAQ_LIST 1 */
+      FIXED 0x320
+
+    /end DAQ_LIST_CAN_ID
+
+    /begin DAQ_LIST_CAN_ID
+
+      0x0002                     /* for DAQ_LIST 2 */
+      FIXED 0x330
+
+    /end DAQ_LIST_CAN_ID
+
+    MAX_BUS_LOAD 30              /* maximum available bus load in percent */
+
+    /begin PROTOCOL_LAYER
+
+      0x0103                     /* XCP protocol layer version */
+      0x000A                     /* T1 [ms] */
+      0x000A                     /* T2 [ms] */
+      0x000A                     /* T3 [ms] */
+      0x000A                     /* T4 [ms] */
+      0x000A                     /* T5 [ms] */
+      0x0000                     /* T6 [ms] */
+      0x0020                     /* T7 [ms] */
+      0x08                       /* MAX_CTO */
+      0x0008                     /* MAX_DTO */
+
+      BYTE_ORDER_MSB_FIRST
+      ADDRESS_GRANULARITY_BYTE
+
+      OPTIONAL_CMD  GET_ID
+      OPTIONAL_CMD  SET_REQUEST
+
+      OPTIONAL_CMD  SET_MTA
+      OPTIONAL_CMD  UPLOAD
+      OPTIONAL_CMD  BUILD_CHECKSUM
+      OPTIONAL_CMD  DOWNLOAD
+      OPTIONAL_CMD  SET_CAL_PAGE
+      OPTIONAL_CMD  GET_CAL_PAGE
+      OPTIONAL_CMD  COPY_CAL_PAGE
+      OPTIONAL_CMD  CLEAR_DAQ_LIST
+      OPTIONAL_CMD  SET_DAQ_PTR
+      OPTIONAL_CMD  WRITE_DAQ
+      OPTIONAL_CMD  SET_DAQ_LIST_MODE
+      OPTIONAL_CMD  START_STOP_DAQ_LIST
+      OPTIONAL_CMD  START_STOP_SYNCH
+      OPTIONAL_CMD  GET_DAQ_CLOCK
+      OPTIONAL_CMD  WRITE_DAQ_MULTIPLE
+
+      OPTIONAL_CMD  SHORT_UPLOAD
+      OPTIONAL_CMD  SHORT_DOWNLOAD
+      OPTIONAL_CMD  DOWNLOAD_NEXT
+
+      COMMUNICATION_MODE_SUPPORTED  BLOCK  SLAVE  MASTER  0x0A 0x02
+
+    /end PROTOCOL_LAYER
+
+    /begin DAQ
+
+      STATIC                     /* DAQ_CONFIG_TYPE */
+      0x0003                     /* MAX_DAQ */
+      0x0002                     /* MAX_EVENT_CHANNEL */
+      0x01                       /* MIN_DAQ */
+
+      OPTIMISATION_TYPE_DEFAULT
+      ADDRESS_EXTENSION_DAQ
+      IDENTIFICATION_FIELD_TYPE_ABSOLUTE
+
+      GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE
+      0x02                       /* MAX_ODT_ENTRY_SIZE_DAQ */
+
+      OVERLOAD_INDICATION_EVENT
+      PRESCALER_SUPPORTED
+      RESUME_SUPPORTED
+
+      /begin DAQ_LIST
+
+        0x0000                   /* DAQ_LIST_NUMBER */
+        DAQ_LIST_TYPE DAQ
+        MAX_ODT               0x01
+        MAX_ODT_ENTRIES 0x02
+
+        /begin PREDEFINED
+
+          /begin ODT  0
+
+            ODT_ENTRY  0  0x4000  0x00  0x01  0xFF
+            ODT_ENTRY  1  0x4001  0x00  0x01  0xFF
+
+          /end ODT
+
+        /end PREDEFINED
+
+      /end DAQ_LIST
+
+      /begin DAQ_LIST
+
+        0x0001                   /* DAQ_LIST_NUMBER */
+        DAQ_LIST_TYPE DAQ_STIM
+        MAX_ODT                  0x03
+        MAX_ODT_ENTRIES 0x10
+
+      /end DAQ_LIST
+
+      /begin DAQ_LIST
+
+        0x0002                   /* DAQ_LIST_NUMBER */
+        DAQ_LIST_TYPE DAQ_STIM
+        MAX_ODT                   0x10
+        MAX_ODT_ENTRIES 0x20
+
+      /end DAQ_LIST
+
+      /begin EVENT
+
+        "10_ms_task"             /* name */
+        "10 ms"                  /* short name */
+        0x0000                   /* EVENT_CHANNEL_NUMBER */
+        DAQ_STIM
+        0x02                     /* MAX_DAQ_LIST */
+        0x0A                     /* EVENT_CHANNEL_TIME_CYCLE */
+        0x06                     /* EVENT_CHANNEL_TIME_UNIT */
+        0x00                     /* EVENT_CHANNEL_PRIORITY */
+
+      /end EVENT
+
+      /begin EVENT
+
+        "100_ms_task"            /* name */
+        "100 ms"                 /* short name */
+        0x0001                   /* EVENT_CHANNEL_NUMBER */
+        DAQ_STIM
+        0x02                     /* MAX_DAQ_LIST */
+        0x64                     /* EVENT_CHANNEL_TIME_CYCLE */
+        0x06                     /* EVENT_CHANNEL_TIME_UNIT */
+        0x10                     /* EVENT_CHANNEL_PRIORITY */
+
+      /end EVENT
+
+    /end DAQ
+
+    TRANSPORT_LAYER_INSTANCE "private CAN"
+
+  /end XCP_ON_CAN
+
+  /begin XCP_ON_CAN
+
+    0x0103                       /* XCP on CAN version */
+    CAN_ID_BROADCAST 0x0100      /* Broadcast */
+    CAN_ID_MASTER 0x7FD          /* CMD/STIM */
+    CAN_ID_SLAVE 0x7FE           /* RES/ERR/EV/SERV/DAQ */
+    BAUDRATE 1000000             /* BAUDRATE */
+    SAMPLE_POINT 85              /* sample point */
+                                 /* [% complete bit time] */
+    BTL_CYCLES 20                /* BTL_CYCLES */
+                                 /* [slots per bit time] */
+    SJW 3                        /* length synchr. segment */
+                                 /* [BTL_CYCLES] */
+
+    MAX_BUS_LOAD  88             /* maximum available bus load in percent */
+
+    /begin PROTOCOL_LAYER
+
+      0x0103                     /* XCP protocol layer version */
+      0x00FA                     /* T1 [ms] */
+      0x00FA                     /* T2 [ms] */
+      0x0000                     /* T3 [ms] */
+      0x0000                     /* T4 [ms] */
+      0x0000                     /* T5 [ms] */
+      0x0000                     /* T6 [ms] */
+      0x0000                     /* T7 [ms] */
+      0x08                       /* MAX_CTO */
+      0x0008                     /* MAX_DTO default for DAQ and STIM */
+
+      BYTE_ORDER_MSB_FIRST
+      ADDRESS_GRANULARITY_BYTE
+
+      OPTIONAL_CMD GET_COMM_MODE_INFO
+      OPTIONAL_CMD SET_MTA
+      OPTIONAL_CMD UPLOAD
+      OPTIONAL_CMD SHORT_UPLOAD
+      OPTIONAL_CMD BUILD_CHECKSUM
+      OPTIONAL_CMD DOWNLOAD
+      OPTIONAL_CMD DOWNLOAD_NEXT
+      OPTIONAL_CMD SET_CAL_PAGE
+      OPTIONAL_CMD GET_CAL_PAGE
+      OPTIONAL_CMD COPY_CAL_PAGE
+      OPTIONAL_CMD CLEAR_DAQ_LIST
+      OPTIONAL_CMD SET_DAQ_PTR
+      OPTIONAL_CMD WRITE_DAQ
+      OPTIONAL_CMD SET_DAQ_LIST_MODE
+      OPTIONAL_CMD GET_DAQ_LIST_MODE
+      OPTIONAL_CMD START_STOP_DAQ_LIST
+      OPTIONAL_CMD START_STOP_SYNCH
+      OPTIONAL_CMD FREE_DAQ
+      OPTIONAL_CMD ALLOC_DAQ
+      OPTIONAL_CMD ALLOC_ODT
+      OPTIONAL_CMD ALLOC_ODT_ENTRY
+
+      COMMUNICATION_MODE_SUPPORTED
+      BLOCK
+      SLAVE                      /* Slave Block Mode supported */
+      MASTER                     /* Master Block Mode supported */
+      0x2B                       /* MAX_BS */
+      0x02                       /* MIN_ST */
+
+    /end PROTOCOL_LAYER
+
+    /begin DAQ
+
+      DYNAMIC                    /* DAQ_CONFIG_TYPE */
+      0xFFFF                     /* MAX_DAQ */
+      0x0003                     /* MAX_EVENT_CHANNEL */
+      0x00                       /* MIN_DAQ */
+
+      OPTIMISATION_TYPE_DEFAULT
+      ADDRESS_EXTENSION_FREE
+      IDENTIFICATION_FIELD_TYPE_ABSOLUTE
+      GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE
+
+      0x04                       /* MAX_ODT_ENTRY_SIZE_DAQ */
+
+      OVERLOAD_INDICATION_EVENT
+
+      CORE_LOAD_MAX_TOTAL  0.08
+
+      /begin CORE_LOAD_MAX
+        1                        /* CORE_NR: core reference number */
+        0.06                     /* CORE_LOAD_MAX: max load of core(CORE_NR) */
+      /end CORE_LOAD_MAX
+
+      /begin CORE_LOAD_MAX
+        2                        /* CORE_NR: core reference number */
+        0.05                     /* CORE_LOAD_MAX: max load of core(CORE_NR) */
+      /end CORE_LOAD_MAX
+
+      /begin CORE_LOAD_MAX
+        3                        /* CORE_NR: core reference number */
+        0.0025                   /* CORE_LOAD_MAX: max load of core(CORE_NR) */
+      /end CORE_LOAD_MAX
+
+      /begin DAQ_MEMORY_CONSUMPTION
+        0x000032c5               /* DAQ_MEMORY_LIMIT: in Elements[AG] */
+        0x0030                   /* DAQ_SIZE: number of elements[AG] per DAQ list */
+        0x0010                   /* ODT_SIZE: number of elements[AG] per ODT */
+        0x0005                   /* ODT_ENTRY_SIZE: number of elements[AG] per ODT_entry */
+        0x0001                   /* ODT_DAQ_BUFFER_ELEMENT_SIZE: number of */
+                                 /* payload elements[AG]*factor = sizeof(send buffer)[AG] */
+        0x0002                   /* ODT_STIM_BUFFER_ELEMENT_SIZE: number of */
+                                 /* payload elements[AG]*factor = sizeof(receive buffer)[AG] */
+
+        /begin BUFFER_RESERVE
+          20                     /* ODT_DAQ_BUFFER_ELEMENT_RESERVE  in % of */
+                                 /* ODT_DAQ_BUFFER_ELEMENT_SIZE */
+          40                     /* ODT_STIM_BUFFER_ELEMENT_RESERVE in % of */
+                                 /* ODT_STIM_BUFFER_ELEMENT_SIZE */
+        /end BUFFER_RESERVE
+
+      /end DAQ_MEMORY_CONSUMPTION
+
+      /begin EVENT
+        "segment synchronous"    /* EVENT_CHANNEL_NAME */
+        "ssyn"                   /* EVENT_CHANNEL_SHORT_NAME */
+        0                        /* EVENT_CHANNEL_NUMBER */
+        DAQ
+        1                        /* MAX_DAQ_LIST */
+        0                        /* EVENT_CHANNEL_TIME_CYCLE */
+        6                        /* EVENT_CHANNEL_TIME_UNIT */
+        7                        /* EVENT_CHANNEL_PRIORITY */
+
+        /begin MIN_CYCLE_TIME
+          2                      /* EVENT_CHANNEL_TIME_CYCLE */
+          6                      /* EVENT_CHANNEL_TIME_UNIT */
+        /end MIN_CYCLE_TIME
+
+        /begin BUFFER_RESERVE_EVENT
+          30                     /* ODT_DAQ_BUFFER_ELEMENT_RESERVE  in % of */
+                                 /* ODT_DAQ_BUFFER_ELEMENT_SIZE */
+          60                     /* ODT_STIM_BUFFER_ELEMENT_RESERVE in % of */
+                                 /* ODT_STIM_BUFFER_ELEMENT_SIZE */
+        /end BUFFER_RESERVE_EVENT
+
+        /begin CPU_LOAD_CONSUMPTION_DAQ
+          1E-6                   /* DAQ_FACTOR */
+          1E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ENTRY_FACTOR */
+          /begin ODT_ENTRY_SIZE_FACTOR_TABLE
+            1                    /* SIZE */
+            150E-9               /* SIZE_FACTOR */
+          /end ODT_ENTRY_SIZE_FACTOR_TABLE
+          /begin CORE_LOAD_EP
+            1                    /* CORE_NR: core reference number */
+            0.025                /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_DAQ
+
+        /begin CPU_LOAD_CONSUMPTION_QUEUE
+          5E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ELEMENT_LOAD: length in elements[AG] */
+          /begin CORE_LOAD_EP
+            1                    /* CORE_NR: core reference number */
+            0.025                /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_QUEUE
+      /end EVENT
+
+      /begin EVENT
+        "10ms time synchronous"  /* EVENT_CHANNEL_NAME */
+        "10ms"                   /* EVENT_CHANNEL_SHORT_NAME */
+        1                        /* EVENT_CHANNEL_NUMBER */
+        DAQ
+        1                        /* MAX_DAQ_LIST */
+        10                       /* EVENT_CHANNEL_TIME_CYCLE */
+        6                        /* EVENT_CHANNEL_TIME_UNIT */
+        6                        /* EVENT_CHANNEL_PRIORITY */
+        /begin CPU_LOAD_CONSUMPTION_DAQ
+          1E-6                   /* DAQ_FACTOR */
+          1E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ENTRY_FACTOR */
+          /begin ODT_ENTRY_SIZE_FACTOR_TABLE
+            1                    /* SIZE */
+            150E-9               /* SIZE_FACTOR */
+          /end ODT_ENTRY_SIZE_FACTOR_TABLE
+          /begin CORE_LOAD_EP
+            2                    /* CORE_NR: core reference number */
+            0.025                /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_DAQ
+
+        /begin CPU_LOAD_CONSUMPTION_QUEUE
+          5E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ELEMENT_LOAD ,length in elements[AG] */
+          /begin CORE_LOAD_EP
+            2                    /* CORE_NR: core reference number */
+            0.025                /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_QUEUE
+      /end EVENT
+
+      /begin EVENT
+        "100ms time synchronous" /* EVENT_CHANNEL_NAME */
+        "100ms"                  /* EVENT_CHANNEL_SHORT_NAME */
+        2                        /* EVENT_CHANNEL_NUMBER */
+        DAQ                      /* EVENT_CHANNEL_TYPE */
+        1                        /* MAX_DAQ_LIST */
+        100                      /* EVENT_CHANNEL_TIME_CYCLE */
+        6                        /* EVENT_CHANNEL_TIME_UNIT */
+        5                        /* EVENT_CHANNEL_PRIORITY */
+        /begin CPU_LOAD_CONSUMPTION_DAQ
+          1E-6                   /* DAQ_FACTOR */
+          1E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ENTRY_FACTOR */
+          /begin ODT_ENTRY_SIZE_FACTOR_TABLE
+            1                    /* SIZE */
+            150E-9               /* SIZE_FACTOR */
+          /end ODT_ENTRY_SIZE_FACTOR_TABLE
+          /begin CORE_LOAD_EP
+            3                    /* CORE_NR: core reference number */
+            0.0025               /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_DAQ
+
+        /begin CPU_LOAD_CONSUMPTION_QUEUE
+          5E-6                   /* ODT_FACTOR */
+          300E-9                 /* ODT_ELEMENT_LOAD ,length in elements[AG] */
+          /begin CORE_LOAD_EP
+            3                    /* CORE_NR: core reference number */
+            0.0025               /* CORE_LOAD_EP_MAX: max load of this event part */
+          /end CORE_LOAD_EP
+        /end CPU_LOAD_CONSUMPTION_QUEUE
+      /end EVENT
+
+    /end DAQ
+
+    TRANSPORT_LAYER_INSTANCE "Calibration CAN (APPL)"
+
+  /end XCP_ON_CAN
+
+  /begin XCP_ON_CAN
+
+    0x0103                       /* XCP on CAN version */
+    CAN_ID_BROADCAST  0x0100     /* auto-detection */
+    CAN_ID_MASTER     0x0400     /* CMD/STIM */
+    CAN_ID_SLAVE      0x0500     /* RES/ERR/EV/SERV/DAQ */
+    BAUDRATE          500000     /* BAUDRATE */
+
+    OPTIONAL_TL_SUBCMD GET_SLAVE_ID
+    OPTIONAL_TL_SUBCMD GET_DAQ_ID
+    OPTIONAL_TL_SUBCMD SET_DAQ_ID
+    OPTIONAL_TL_SUBCMD GET_DAQ_CLOCK_MULTICAST
+
+    TRANSPORT_LAYER_INSTANCE "vehicle CAN"
+
+  /end XCP_ON_CAN
+
+  /begin XCP_ON_FLX
+
+    0x0103                       /* XCP on FlexRay version */
+    0x0019                       /* T1_FLX [ms] */
+    "MyFlexRayNetwork.xml"       /* FIBEX-file including CHI information */
+    "MyCluster"                  /* Cluster-ID */
+    0x02                         /* NAX */
+    HEADER_NAX_CTR_LEN
+    PACKET_ALIGNMENT_8
+
+    /begin INITIAL_CMD_BUFFER
+
+      0x01                       /* FLX_BUF */
+      MAX_FLX_LEN_BUF FIXED 32
+
+      /begin LPDU_ID
+
+        FLX_SLOT_ID FIXED 0x07B
+        OFFSET FIXED 0
+        CYCLE_REPETITION FIXED 1
+        CHANNEL FIXED A
+
+      /end LPDU_ID
+
+      /begin XCP_PACKET
+
+        CMD       FIXED
+        RES_ERR   NOT_ALLOWED
+        EV_SERV   NOT_ALLOWED
+        DAQ       NOT_ALLOWED
+        STIM      FIXED
+        MULTICAST FIXED
+
+      /end XCP_PACKET
+
+    /end INITIAL_CMD_BUFFER
+
+    /begin INITIAL_RES_ERR_BUFFER
+
+      0x02                       /* FLX_BUF */
+      MAX_FLX_LEN_BUF FIXED 32
+
+      /begin LPDU_ID
+
+        FLX_SLOT_ID FIXED 0x07C
+        OFFSET FIXED 1
+        CYCLE_REPETITION FIXED 1
+        CHANNEL FIXED A
+
+      /end LPDU_ID
+
+      /begin XCP_PACKET
+
+        CMD     NOT_ALLOWED
+        RES_ERR FIXED
+        EV_SERV FIXED
+        DAQ     FIXED
+        STIM    NOT_ALLOWED
+
+      /end XCP_PACKET
+
+    /end INITIAL_RES_ERR_BUFFER
+
+    /begin POOL_BUFFER
+
+      0x03                       /* FLX_BUF */
+      MAX_FLX_LEN_BUF FIXED 32
+
+      /begin LPDU_ID
+
+        FLX_SLOT_ID VARIABLE INITIAL_VALUE 0x07D
+        OFFSET FIXED 0
+        CYCLE_REPETITION FIXED 1
+        CHANNEL FIXED A
+
+      /end LPDU_ID
+
+      /begin XCP_PACKET
+
+        CMD     NOT_ALLOWED
+        RES_ERR VARIABLE
+        EV_SERV VARIABLE
+        DAQ     VARIABLE_INITIALISED
+        STIM    NOT_ALLOWED
+
+      /end XCP_PACKET
+
+    /end POOL_BUFFER
+
+    /begin POOL_BUFFER
+
+      0x04                       /* FLX_BUF */
+      MAX_FLX_LEN_BUF VARIABLE 64
+
+      /begin LPDU_ID
+
+        FLX_SLOT_ID FIXED 0x07E
+        OFFSET VARIABLE
+        CYCLE_REPETITION VARIABLE
+        CHANNEL FIXED A
+
+      /end LPDU_ID
+
+      /begin XCP_PACKET
+
+        CMD     VARIABLE
+        RES_ERR VARIABLE
+        EV_SERV VARIABLE
+        DAQ     VARIABLE
+        STIM    VARIABLE
+
+      /end XCP_PACKET
+
+    /end POOL_BUFFER
+
+    /begin POOL_BUFFER
+
+      0x05                       /* FLX_BUF */
+      MAX_FLX_LEN_BUF VARIABLE 64
+
+      /begin LPDU_ID
+
+        FLX_SLOT_ID VARIABLE
+        OFFSET VARIABLE
+        CYCLE_REPETITION VARIABLE
+        CHANNEL VARIABLE
+
+      /end LPDU_ID
+
+      /begin XCP_PACKET
+
+        CMD       VARIABLE
+        RES_ERR   VARIABLE
+        EV_SERV   VARIABLE
+        DAQ       VARIABLE
+        STIM      VARIABLE
+        MULTICAST VARIABLE
+
+      /end XCP_PACKET
+
+    /end POOL_BUFFER
+
+    OPTIONAL_TL_SUBCMD FLX_ASSIGN
+    OPTIONAL_TL_SUBCMD FLX_ACTIVATE
+    OPTIONAL_TL_SUBCMD FLX_DEACTIVATE
+    OPTIONAL_TL_SUBCMD GET_DAQ_FLX_BUF
+    OPTIONAL_TL_SUBCMD SET_DAQ_FLX_BUF
+    OPTIONAL_TL_SUBCMD GET_DAQ_CLOCK_MULTICAST
+
+    TRANSPORT_LAYER_INSTANCE "flexray transport layer"
+
+  /end XCP_ON_FLX
+
+  /begin XCP_ON_SxI
+
+    0x0100                       /* XCP on SxI version */
+    25000                        /* BAUDRATE */
+
+    ASYNCH_FULL_DUPLEX_MODE
+    PARITY_ODD
+    TWO_STOP_BITS
+    /begin FRAMING
+      0x9A                       /* SYNC */
+      0x9B                       /* ESC */
+    /end FRAMING
+
+    HEADER_LEN_CTR_WORD
+    NO_CHECKSUM
+
+  /end XCP_ON_SxI
+
+  /begin XCP_ON_USB
+
+    0x0100                       /* XCP on USB version */
+    0x108C                       /* Vendor ID is 0x108C */
+    0x0EDC                       /* Product ID is 0x0EDC */
+    0x02                         /* Number of interface is 2 */
+    HEADER_LEN_FILL_WORD
+                                 /* OUT-EP for CMD and */
+                                 /* STIM (additional USB Endpoints may also be specified) */
+    /begin OUT_EP_CMD_STIM
+      0x01                       /* Endpoint number is 1 (dir=OUT) */
+      BULK_TRANSFER
+      0x40                       /* Maximum packet size is 64 bytes */
+      0                          /* Polling interval do not care */
+      MESSAGE_PACKING_SINGLE     /* Only one XCP Message/packet */
+      ALIGNMENT_32_BIT           /* XCP Message starts on 32 bit */
+                                 /* addresses within USB data packet */
+    /end OUT_EP_CMD_STIM
+                                 /* IN-EP for RES/ERR, */
+                                 /* DAQ (additional USB Endpoints may also be specified) */
+                                 /* and EV/SERV (if not specified otherwise) */
+    /begin IN_EP_RESERR_DAQ_EVSERV
+      0x01                       /* Endpoint number is 1 (dir=IN) */
+      BULK_TRANSFER
+      0x40                       /* Maximum packet size is 64 bytes */
+      0                          /* Polling interval do not care */
+      MESSAGE_PACKING_SINGLE     /* Only one XCP Message/packet */
+      ALIGNMENT_32_BIT           /* XCP Message starts on 32 bit */
+                                 /* addresses within USB data packet */
+      RECOMMENDED_HOST_BUFSIZE 1
+                                 /* Host: 1 * 64 bytes = 64 bytes */
+    /end IN_EP_RESERR_DAQ_EVSERV
+
+    ALTERNATE_SETTING_NO 0x01    /* Use alternate setting number 1 */
+                                 /* of XCP interface */
+                                 /* Identification for assignment */
+                                 /* description file */
+    INTERFACE_STRING_DESCRIPTOR "XCP Master ECU on interface 1"
+
+    /begin OUT_EP_ONLY_STIM      /* Endpoint supporting packet type */
+                                 /* only STIM */
+      0x02                       /* Endpoint number is 2 (dir=OUT) */
+      BULK_TRANSFER
+      0x40                       /* Maximum packet size is 64 bytes */
+      0                          /* Polling interval do nt care */
+
+                                 /* Multiple XCP Messages/packet */
+      MESSAGE_PACKING_MULTIPLE
+
+      ALIGNMENT_32_BIT           /* XCP Messages start on 32 bit */
+                                 /* addresses within USB data packet */
+    /end OUT_EP_ONLY_STIM
+
+    /begin IN_EP_ONLY_DAQ        /* Endpoint supporting packet type */
+                                 /* only DAQ */
+      0x02                       /* Endpoint number is 2 (dir=IN) */
+      BULK_TRANSFER
+      0x40                       /* Maximum packet size is 64 bytes */
+      0                          /* Polling interval do not care */
+
+                                 /* Streaming mode */
+      MESSAGE_PACKING_STREAMING
+      ALIGNMENT_32_BIT           /* XCP Messages start on 32 bit */
+                                 /* addresses within USB data packet */
+      RECOMMENDED_HOST_BUFSIZE 5
+                                 /* Host: 5 * 64 bytes = 320 bytes */
+    /end IN_EP_ONLY_DAQ
+
+    /begin IN_EP_ONLY_EVSERV     /* Endpoint supporting packet types */
+                                 /* only EV, SERV */
+      0x03                       /* Endpoint number is 3 (dir=IN) */
+      INTERRUPT_TRANSFER
+      0x40                       /* Maximum packet size is 64 bytes */
+      0x10                       /* Polling interval is 16 ms */
+      MESSAGE_PACKING_SINGLE     /* Only one XCP Message/packet */
+      ALIGNMENT_32_BIT           /* XCP Message starts on 32 bit */
+                                 /* addresses within USB data packet */
+      RECOMMENDED_HOST_BUFSIZE 1
+                                 /* Host: 1 * 64 bytes = 64 bytes */
+    /end IN_EP_ONLY_EVSERV
+
+    /begin DAQ_LIST_USB_ENDPOINT
+      0x0000                     /* DTO-DAQ dedicated to list 0 */
+      FIXED_IN 0x02              /* uses Endpoint 2 IN */
+    /end DAQ_LIST_USB_ENDPOINT
+
+    /begin DAQ_LIST_USB_ENDPOINT
+      0x0001                     /* DTO-DAQ dedicated to list 1 */
+      FIXED_IN 0x02              /* uses Endpoint 2 IN */
+    /end DAQ_LIST_USB_ENDPOINT
+
+    /begin DAQ_LIST_USB_ENDPOINT
+      0x0002                     /* DTO-STIM dedicated to list 2 */
+      FIXED_OUT 0x02             /* uses Endpoint 2 OUT */
+    /end DAQ_LIST_USB_ENDPOINT
+
+  /end XCP_ON_USB
+
+/end IF_DATA
