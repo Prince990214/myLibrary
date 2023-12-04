@@ -1,0 +1,247 @@
+Microsoft Windows [Version 10.0.19045.3570]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\uiv09995>ipconfig /all
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : TJL0724W
+   Primary Dns Suffix  . . . . . . . : vt1.vitesco.com
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : tj.cn.int.vitesco.com
+                                       int.vitesco.com
+                                       vitesco.io
+                                       vitesco-technologies.net
+                                       vt1.vitesco.com
+                                       ot1.vitesco.com
+
+Unknown adapter CatoNetworks:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Cato Networks Tunnel
+   Physical Address. . . . . . . . . :
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : vt1.vitesco.com
+   Description . . . . . . . . . . . : Intel(R) Ethernet Connection (13) I219-V
+   Physical Address. . . . . . . . . : 38-14-28-52-EF-D1
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet 3:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Realtek USB GbE Family Controller
+   Physical Address. . . . . . . . . : 38-14-28-C6-F4-EB
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 1:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter
+   Physical Address. . . . . . . . . : 94-E2-3C-27-A2-82
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #2
+   Physical Address. . . . . . . . . : 96-E2-3C-27-A2-81
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Cato Networks VPN Adapter
+   Physical Address. . . . . . . . . : 02-FF-07-A7-CE-8B
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter WiFi:
+
+   Connection-specific DNS Suffix  . : vt1.vitesco.com
+   Description . . . . . . . . . . . : Intel(R) Wi-Fi 6 AX201 160MHz
+   Physical Address. . . . . . . . . : 94-E2-3C-27-A2-81
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 10.111.244.255(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.252.0
+   Lease Obtained. . . . . . . . . . : 2023年12月4日 14:36:27
+   Lease Expires . . . . . . . . . . : 2023年12月7日 14:38:10
+   Default Gateway . . . . . . . . . : 10.111.244.1
+   DHCPv4 Class ID . . . . . . . . . : VT_INTERIM
+   DHCP Server . . . . . . . . . . . : 10.192.97.237
+   DNS Servers . . . . . . . . . . . : 10.192.97.237
+                                       10.192.97.238
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+   Connection-specific DNS Suffix Search List :
+                                       vt1.vitesco.com
+                                       int.vitesco.com
+                                       tj.cn.int.vitesco.com
+
+Ethernet adapter vEthernet (Default Switch):
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Hyper-V Virtual Ethernet Adapter
+   Physical Address. . . . . . . . . : 00-15-5D-73-B1-5B
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 172.31.64.1(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . :
+   DHCPv4 Class ID . . . . . . . . . : VT_INTERIM
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter vEthernet (WSL):
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Hyper-V Virtual Ethernet Adapter #2
+   Physical Address. . . . . . . . . : 00-15-5D-75-8C-86
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 172.25.96.1(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . :
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+C:\Users\uiv09995>ipconfig /all
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : TJL0724W
+   Primary Dns Suffix  . . . . . . . : vt1.vitesco.com
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : tj.cn.int.vitesco.com
+                                       int.vitesco.com
+                                       vitesco.io
+                                       vitesco-technologies.net
+                                       vt1.vitesco.com
+                                       ot1.vitesco.com
+
+Unknown adapter CatoNetworks:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Cato Networks Tunnel
+   Physical Address. . . . . . . . . :
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : vt1.vitesco.com
+   Description . . . . . . . . . . . : Intel(R) Ethernet Connection (13) I219-V
+   Physical Address. . . . . . . . . : 38-14-28-52-EF-D1
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet 3:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Realtek USB GbE Family Controller
+   Physical Address. . . . . . . . . : 38-14-28-C6-F4-EB
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 1:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter
+   Physical Address. . . . . . . . . : 94-E2-3C-27-A2-82
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #2
+   Physical Address. . . . . . . . . : 96-E2-3C-27-A2-81
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+
+Ethernet adapter Ethernet 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Cato Networks VPN Adapter
+   Physical Address. . . . . . . . . : 02-FF-07-A7-CE-8B
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter WiFi:
+
+   Connection-specific DNS Suffix  . : vt1.vitesco.com
+   Description . . . . . . . . . . . : Intel(R) Wi-Fi 6 AX201 160MHz
+   Physical Address. . . . . . . . . : 94-E2-3C-27-A2-81
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 10.111.244.255(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.252.0
+   Lease Obtained. . . . . . . . . . : 2023年12月4日 14:36:27
+   Lease Expires . . . . . . . . . . : 2023年12月7日 14:38:10
+   Default Gateway . . . . . . . . . : 10.111.244.1
+   DHCPv4 Class ID . . . . . . . . . : VT_INTERIM
+   DHCP Server . . . . . . . . . . . : 10.192.97.237
+   DNS Servers . . . . . . . . . . . : 10.192.97.237
+                                       10.192.97.238
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+   Connection-specific DNS Suffix Search List :
+                                       vt1.vitesco.com
+                                       int.vitesco.com
+                                       tj.cn.int.vitesco.com
+
+Ethernet adapter vEthernet (Default Switch):
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Hyper-V Virtual Ethernet Adapter
+   Physical Address. . . . . . . . . : 00-15-5D-73-B1-5B
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 172.31.64.1(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . :
+   DHCPv4 Class ID . . . . . . . . . : VT_INTERIM
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter vEthernet (WSL):
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Hyper-V Virtual Ethernet Adapter #2
+   Physical Address. . . . . . . . . : 00-15-5D-75-8C-86
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . :
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+C:\Users\uiv09995>>a.txt
+The syntax of the command is incorrect.
+
+C:\Users\uiv09995>helpf:123.txt
+The filename, directory name, or volume label syntax is incorrect.
+
+C:\Users\uiv09995>>>a.txt
+The syntax of the command is incorrect.
+
+C:\Users\uiv09995>

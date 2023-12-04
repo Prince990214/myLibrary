@@ -1,0 +1,10 @@
+--must install step by step
+
+
+--if cannot connect localhost:3390 try to use "sudo service xrdp restart" to restart xrdp service
+
+
+--if we are using "service" rather than "systemctl", so some commands  cannot supported in our ervironment
+
+
+...
